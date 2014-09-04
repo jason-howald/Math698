@@ -1,0 +1,144 @@
+%!TEX root = NotesIndex.tex
+
+
+%\newcommand{\det}{\operatorname{det}}
+\newcommand{\sgn}{\operatorname{sgn}}
+
+\begin{definition}  Let $A$ be an $n \times n$ matrix with coefficients in a commutative unital ring $R$.  
+	We define the {\it determinant} of $A$ to be:
+	$$\det(A) = \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i a_{i,\sigma(i)}$$
+\end{definition}
+
+
+
+\begin{theorem} (Properties of the determinant)
+	\begin{enumerate}\setlength{\itemsep}{0em}
+		\item (calibration) \label{calibration} $\det(I_n)=1$
+		\item (multilinearity) \label{multilinear} $\det$ is $R$-linear in each row.  That is: $$\det\left(\begin{array}{c} v_1 \\ \vdots \\av+bw \\ \vdots \\v_n \end{array}\right) =a \det\left(\begin{array}{c} v_1 \\ \vdots \\ v \\ \vdots \\ v_n \end{array}\right) + b\det\left(\begin{array}{c} v_1 \\ \vdots \\ w \\ \vdots \\ v_n \end{array}\right)$$
+		\item (alternating) \label{alternating} $\det$ is alternating on the rows:  (Here $v$ and $w$ are meant to represent arbitrary distinct row positions, including row $1$ or row $n$.
+		$$\det\left(\begin{array}{c} \vdots \\ v \\ \vdots \\w \\ \vdots \end{array}\right) = - \det\left(\begin{array}{c} \vdots \\ w \\ \vdots \\ v \\ \vdots  \end{array}\right)$$
+		\item (zero rows) \label{zeroRow} If $A$ has a zero row, then $\det(A)=0$.
+		\item (repeated rows) \label{repeated} If $A$ has a repeated row, then $\det(A)=0$.
+		\item (Permutation Matrix) \label{permutation} Let $P_\sigma$ be the permutation matrix associated to a permutation $\sigma$
+		so that $P_{i,\sigma(i)} =1$ but $P$ is otherwise zero.  Then $\det(P_\sigma) = \sgn(\sigma)$
+		\item (Symmetry) \label{symmetry} $\det(A) = \det(A^T)$
+		\item (Columns) \label{columns} $\det$ is linear on each column, and alternating on columns.
+		\item (Laplace expansion on row $i$, $n>1$) \label{laplace} For a matrix $A$, write $a_{ij}$ for its entries, 
+		and write $A_{ij}$ for the matrix %$(n-1) \times (n-1)$ determinant of
+		($A$ with row $i$ and column $j$ removed).  Fix $1 \leq i \leq n$.  Then 
+			$$\det(A) = \sum_j (-1)^{i+j} a_{ij} \det(A_{ij})$$	
+		\item (Cramer's rule, $n>1$) \label{CramersRule}  For a matrix $A$, let $C$, the cofactor matrix of $A$, be the matrix whose 
+		$i,j$ entry is $C_{ij} = (-1)^{i+j} \det(A_{ij})$, as above.  Then 
+		$$A C^T = \det(A) I = C^TA$$
+		\item (Homomorphism) \label{homomorphism} $\det(AB) = \det(A)\det(B)$
+	\end{enumerate}
+
+\end{theorem}
+\begin{proof}
+	For \ref{calibration}, the identity permutation is the only contributing term to the sum $\det(A)$.  The proof of 
+	property \ref{permutation} is basically the same.
+
+	To prove that determinant satisfies property \ref{multilinear}, fix $k$ and let $(a_{k1}, \ldots, a_{kn})$
+	be a row of $A$.  Note that the expression
+	$\sum_{\sigma \in S_n} \sgn(\sigma) \prod_ i a_{i,\sigma(i)}$ is a sum of products, each of which 
+	has exactly one $a_{kj}$.  So it can be regrouped in the form $c_1a_{k1} + \ldots + c_na_{kn}$, which is clearly
+	a linear function of the row vector.
+
+	The alternating property (property \ref{alternating}) is an exercise in 
+	reindexing:  If $B$ is obtained from $A$ by switching rows $i_1$ and $i_2$, and $\tau$ is the corresponding 
+	transposition, then 
+		
+	$$\det(B) 
+	= \sum_{\sigma \in S_n} \sgn(\sigma \tau) \prod_i b_{i,\sigma\tau(i)}
+	= \sum_{\sigma \in S_n} -\sgn(\sigma) \prod_ i b_{\tau i,\sigma(i)}
+	= \sum_{\sigma \in S_n} -\sgn(\sigma) \prod_ i a_{i,\sigma(i)} = - \det (A)$$
+	
+	Property \ref{zeroRow} follows from \ref{multilinear}.
+	
+	Property \ref{repeated} follows from property \ref{alternating} unless $2$ is a zerodivisor.  For a general proof, assume
+	that rows $i_1$ and $i_2$ of $A$ are identical, and let $\tau = (i_1i_2)$.  Then 
+	$$\det(A) = \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i a_{i,\sigma(i)} 
+	= \sum_{\sigma \in A_n} \left[ \sgn(\sigma) \prod_i a_{i,\sigma(i)} + \sgn(\sigma\tau) \prod_i a_{i,\sigma\tau(i)}\right]$$
+	The last product may be rewritten $\prod_i a_{\tau(i),\sigma(i)} = \prod_i a_{i,\sigma(i)}$, and everything cancels.
+	
+	Properties 1-5 (just 1-3 if $2$ is a nonzerodivisor) together imply the formula for $\det(A)$ given in the definition.  In 
+	some contexts these first three properties are taken to be the definition of the determinant function. 
+	
+%	Next we prove \ref{permutation}. For a transposition $\tau$, the permutation matrix $P_{\sigma \tau}$ can be
+%	obtained from $P_\sigma$ by a row interchange.  So $I_n$ may be obtained via $\sgn(\sigma)$ interchanges.
+%	Thus $\det(P_\sigma) = \sgn(\sigma) \det(I_n)$.
+%
+%	Next we prove \ref{grouptheory}.  Write $r_i$ for the rows of $A$, so $A = \left(\begin{array}{c} r_1 \\ r_2 \\ \vdots \end{array} \right)$. 
+%	We may treat each row $(a_{i,1}, a_{i,2}, \ldots)$ as a sum $a_{i,1}e_1 +a_{i,2}e_2, \ldots$ 
+%	we use multilinearity on every row in turn to write $\det(A)$ as a massive sum with $n^n$ terms:
+%	$$\det(A) = \sum_{j_1=1}^n a_{1,j_1} \det\left(\begin{array}{c} e_{j_1} \\ r_2 \\ r_3 \\ \vdots \\ r_n\end{array} \right)
+%	= \sum_{j_1=1}^n \sum_{j_2=1}^n a_{1,j_1} a_{2,j_2} \det\left(\begin{array}{c} e_{j_1} \\ e_{j_2} \\ r_3 \\ \vdots \\ r_n\end{array} \right)$$
+%	
+%	$$\ldots =  \sum_{j_1=1}^n \ldots \sum_{j_n=1}^n \prod_{i=1}^n a_{i,j_i} \det\left(\begin{array}{c} e_{j_1} \\ \vdots \\ e_{j_n}\end{array} \right)$$
+%	The terms in this sum for which $j_1, \ldots, j_n$ are all distinct correspond to permutations $\sigma$ with 
+%	$\sigma(i) = j_i$.  In this case, by $\ref{permutation}$, $\det(e_{j_1}, \ldots, e_{j_n}) = \sgn(\sigma)$ as 
+%	desired.  Terms for which the indexing variables $j_1, \ldots, j_n$ are not distinct produce matrices 
+%	$(e_{j_1}, \ldots, e_{j_n})$ with repeated rows and zero determinants, by \ref{zeroRow}.  We conclude 
+%	
+%	$$\det(A) = \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i a_{i,\sigma(i)}$$
+	
+	The symmetry property (\ref{symmetry}) follows from the definition:
+	$$\det(A^T) = \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i a_{\sigma(i),i}= \sum_{\sigma \in S_n} \sgn(\sigma^{-1}) \prod_i a_{i,\sigma(i)} = \det(A)$$
+	
+	Antilinearity in columns (\ref{columns}) follows from symmetry.
+	
+	Next we prove the Laplace expansion \ref{laplace}.  Fix row index $k$.  Grouping the terms of the 
+	sum $\det(A)$ by the value $\sigma(k)$ gives $\det(A) = c_1a_{k1} + \ldots + c_na_{kn}$, as in the proof
+	of linearity.  Now 
+	$$c_j = \sum_{\sigma \in S_n, \sigma(k)=j} \sgn(\sigma) \prod_{i \neq k} a_{i,\sigma(i)}$$
+	Note that this is a sum of products from the submatrix $A_{kj}$.  Now if $\pi \in S_{n-1} \subset S_n$, we can 
+	associate to $\pi$ the permutation $\sigma_\pi = (j,j+1,\ldots,n)\pi(n,\ldots,k+1,k) \in S_n$, which sends $k$ to $j$.
+	The permutations $\sigma$ for which $\sigma(k)=j$ are exactly the permutations $\sigma_\pi$ for $\pi \in S_n$,
+	and 
+	$$\sgn(\sigma) \prod_{i \neq k} a_{i,\sigma(i)} = (-1)^{k+j}\sgn(\pi) \prod_{i=1}^{n-1} [A_kj]_{i, \pi(i)}$$
+	
+	Therefore $c_j = \det(A_{kj})$ as desired.
+	
+%	We know that $\det(A) = \sum_{j=1}^n (-1)^{i+j} a_{ij} C_{ij}$ 
+%	for some coefficient $C_{ij}$ depending only on 
+%	entries of the submatrix $S_{ij}$ of $A$ excluding column $i$ and row $j$.  The value $C_{ij}$ is unchanged 
+%	if we replace row $I$ and column $j$ with zeroes, and $a_{ij}$ with $1$.  Call $B$ this new matrix.  Notice
+%	$\det(B) = (-1)^{i+j}C_{ij}$.  The function $C_{ij}$ of the entries of $S_{ij}$ is 1 on the entity matrix, multilinear,
+%	and alternating, so $C_{ij} = \det(S_{ij})$ as desired.
+	
+	Next we prove Cramer's rule.  
+	Let $A$ be a matrix and let $C$ be the cofactor matrix of $A$.  The $(i,i)$ entry of $AC^T$ is the Laplace
+	expansion for $\det(A)$.  The $(i,j)$ entry ($i \neq j$) is a Laplace expansion for a matrix like $A$ but 
+	with row $j$ replaced with row $i$, which forces zero determinant.  For the product $C^TA$, we use a 
+	column variant of the Laplace expansion, by symmetry.
+		
+	%We treat the entire process as an induction on $n$, 
+	%the matrix size.  We therefore note first that in case $n=1$ the ``identity function'' $\det([a]) = a$ satisfies 
+	%properties 1-3.
+	Finally we prove multiplicativity.  If $R$ is a field, things are much easier.  Since we need the result more 
+	generally, we choose a strategy of direct computation.  Let $A$ and $B$ be $n \times n$ matrices. 
+	\newpage
+	
+	\begin{align*}
+		\det(AB) &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i (AB)_{i,\sigma(i)}\\
+		 &= \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i \sum_k A_{ik} B_{k,\sigma(i)}\\
+		 &= \sum_{\sigma \in S_n} \sgn(\sigma) \sum_{f:[n] \to [n]} \prod_i A_{i,f(i)} B_{f(i),\sigma(i)}\\
+		 &=  \sum_{f:[n] \to [n]} \sum_{\sigma \in S_n} \sgn(\sigma)\prod_i A_{i,f(i)} B_{f(i),\sigma(i)}\\
+		&= \sum_{\pi \in S_n} \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i A_{i, \pi(i)}B_{\pi i, \sigma(i)} \hspace{2em}\text{(see below)}\\
+		&= \sum_{\pi \in S_n} \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i A_{i, \pi(i)}\prod_j B_{\pi j, \sigma(j)} \hspace{2em} \text{(reindex j product)}\\
+		&= \sum_{\pi \in S_n} \sum_{\sigma \in S_n} \sgn(\sigma) \prod_i A_{i, \pi(i)}\prod_j B_{j, \sigma\pi^{-1}(j)} \hspace{2em} (\sigma = \tau \pi)\\
+		&= \sum_{\pi \in S_n} \sum_{\tau \in S_n} \sgn(\tau\pi) \prod_i A_{i, \pi(i)}\prod_j B_{j, \tau(j)}\\
+		&= \left(\sum_{\pi \in S_n} \sgn(\pi) \prod_i A_{i, \pi(i)}\right)\left(\sum_{\tau \in S_n} \sgn(\tau) \prod_j B_{j, \tau(j)}\right)\\
+		&= \det(A)\det(B) 
+	\end{align*}
+\end{proof}
+
+	It remains to explain the conversion of $\sum_{f:[n] \to [n]} $ to $\sum_{\pi \in S_n}$.  We argue that when $f$ is 
+	not a permutation, it contributes $0$ to the sum.  If $f$ is not a permutation, it is 
+	not injective.  Say $f(c)=f(d) = e$, with $c < d$.  Then any $\sigma \in S_n$ yields the product
+	$$\sgn(\sigma)\prod_i A_{i,f(i)} B_{f(i),\sigma i} = \sgn(\sigma) \ldots \cdot A_{c,e}B_{e,\sigma(c)} \cdot \ldots \cdot A_{d,e} B_{e,\sigma(d)}\cdot \ldots$$
+	The permutation $\sigma \cdot (cd)$ yields:
+	$$\sgn(\sigma(cd))\prod_i A_{i,f(i)} B_{f(i),\sigma i} = -\sgn(\sigma) \ldots \cdot A_{c,e}B_{e,\sigma(d)} \cdot \ldots \cdot A_{d,e} B_{e,\sigma(c)}\cdot \ldots$$
+	Terms hidden in ``$\ldots$'' are identical, and terms shown are equal.  These terms cancel in the sum $\sum_{\sigma \in S_n}$.  
+	Pairing every permutation $\sigma$ with its partner $\sigma(cd)$ shows that the entire sum 
+	$\sum_{\sigma \in S_n} \sgn(\sigma)\prod_i A_{i,f(i)} B_{f(i),\sigma i}$ is zero when $f$ is not a permutation.
